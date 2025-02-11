@@ -1,0 +1,25 @@
+PREFIX: +set (or any other)
+
+$nomention  
+$title[⚙️ | Welcome and Goodbye Settings]  
+$description[This is the section to configure your welcome and goodbye system.
+
+**IMPORTANT:**  
+- If you encounter any issues or find a bug, open a thread in https://discord.com/channels/1308480254733586582/1308482678961733693 or in https://discord.com/channels/1077968892535775262/1093912751497293925 and mention me (<@635160512832733185>)  
+- **__NO__** support will be provided if you __**modify the code and/or variables**__  
+- Please make sure to copy everything correctly to avoid opening threads incorrectly  
+- Read the information section to understand how this system works  
+- For the systems to work, you **must** configure at least one welcome channel. However, don't worry—if you don't want welcome messages to be sent, you can deactivate this option so the other systems will work, but no welcome messages will be sent.]  
+$footer[Credits @Tico]  
+$color[6e00ff]  
+$newSelectMenu[set-b-i;0;1;⚙️ | Settings;]  
+$addSelectMenuOption[set-b-i;Welcome Message;m-b;Configure the welcome message;;🛬;]  
+$addSelectMenuOption[set-b-i;Welcome Channel;canal-b;Configure the welcome channel;;✉️;]  
+$addSelectMenuOption[set-b-i;Auto-roles on join;rol;Configure up to 5 auto-roles when joining the server;;🛠️;]  
+$addSelectMenuOption[set-b-i;Anti-bots;anti;Enable/disable the anti-bot system;;🤖;]  
+$addSelectMenuOption[set-b-i;Auto-name;auto-n;Set an auto-name when joining the server;;✏️;]  
+$addSelectMenuOption[set-b-i;Enable/Disable Systems;a-d;Enable/disable welcome/goodbye systems;;⚙️;]  
+$addSelectMenuOption[set-b-i;Goodbye Message;m-i;Configure the goodbye message;;🛫;]  
+$addSelectMenuOption[set-b-i;Goodbye Channel;canal-i;Configure the goodbye channel;;✉️;]  
+$addSelectMenuOption[set-b-i;View Configuration;conf;View the current configuration;;👀;]  
+$addSelectMenuOption[set-b-i;Information;info;I explain how this system works;;📖;]  
