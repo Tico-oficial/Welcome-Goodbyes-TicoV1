@@ -1,0 +1,379 @@
+PREFIX: $onInteraction
+
+$nomention
+$onlyIf[$or[$customID==bie;$customID==des;$customID==set-b-i;$customID==modal-conf]==true;]
+
+$if[$customID==set-b-i]
+
+$if[$message==m-b]
+$newModal[modal-conf;🛬 | Welcome message]
+$addTextInput[t;short;Title;;;no;;]
+$addTextInput[d;paragraph;Description;;;no;;]
+$addTextInput[i;short;Image;;;no;;]
+$addTextInput[f;short;Footer;;;no;;]
+$addTextInput[c;short;Color;;6;no;;]
+
+$elseif[$message==m-i]
+$newModal[modal-conf;🛫 | Departure message]
+$addTextInput[t-i;short;Title;;;no;;]
+$addTextInput[d-i;paragraph;Description;;;no;;]
+$addTextInput[i-i;short;Image;;;no;;]
+$addTextInput[f-i;short;Footer;;;no;;]
+$addTextInput[c-i;short;Color;;6;no;;]
+
+$elseif[$message==rol]
+$newModal[modal-conf;🛠️ | Auto-roles]
+$addTextInput[role;short;Enter the role ID;;;no;;Example: 122420083737372]
+$addTextInput[role-act;short;Remove role?, enter the ID;;;no;;Example: 122420083737372]
+
+$elseif[$message==canal-b]
+$newModal[modal-conf;✉️ | Welcome channel]
+$addTextInput[channel-b;short;Channel ID;;;yes;;Example: 12283902063292]
+
+$elseif[$message==canal-i]
+$newModal[modal-conf;✉️ | Departure channel]
+$addTextInput[channel-i;short;Channel ID;;;yes;;Example: 12283902063292]
+
+$elseif[$message==anti]
+$newModal[modal-conf;🤖 | Anti-bot system]
+$addTextInput[anti;short;Activate or deactivate system?;;;yes;;activate/deactivate]
+
+$elseif[$message==a-d]
+$newModal[modal-conf;🛬-🛫 | Activate/deactivate welcome/leave]
+$addTextInput[a-d-b;short;Activate or deactivate welcome messages?;;;no;;activate/deactivate]
+$addTextInput[a-d-i;short;Activate or deactivate leave messages?;;;no;;activate/deactivate]
+
+$elseif[$message==auto-n]
+$newModal[modal-conf;✏️ | Auto-name]
+$addTextInput[auto-n;short;Enter the name;;27;yes;;Example: 👤 | {name-user} or deactivate]
+
+$elseif[$message==conf]
+$removeAllComponents
+$ephemeral
+$jsonParse[$getUserVar[welcome-id;$botID;$guildID]]
+$title[👀 | Current configuration]
+$addField[🛠️ | Auto-roles;
+**Auto-role 1:** $replaceText[<@&$json[role-1]>;<@&>;No role configured;-1]
+**Auto-role 2:** $replaceText[<@&$json[role-2]>;<@&>;No role configured;-1]
+**Auto-role 3:** $replaceText[<@&$json[role-3]>;<@&>;No role configured;-1]
+**Auto-role 4:** $replaceText[<@&$json[role-4]>;<@&>;No role configured;-1]
+**Auto-role 5:** $replaceText[<@&$json[role-5]>;<@&>;No role configured;-1]]
+$addField[🤖 | Anti-bots;
+**Activated?:** $replaceText[$replaceText[$json[anti-bots];si;System __activated__, any bot invited will be kicked out;1];no;System __deactivated__, any bot will be allowed to join;1]]
+$addField[✏️ | Auto-name;
+$replaceText[$replaceText[$checkCondition[$json[auto-n]==];true;No auto-name configured;1];false;Auto-name configured $json[auto-n]
+**Preview of how it would look:** $replaceText[$replaceText[$json[auto-n];{name-user};$nickname[$authorID];1];{members};$membersCount;1];1]]
+$addField[🛬 | Welcome channel;
+$replaceText[<#$getServerVar[canal-b;$guildID]>;<#>;No channel configured;-1]
+$replaceText[$replaceText[$json[b];si;System __activated__;1];no;System __deactivated__;1]]
+$addField[🛫 | Leave channel;
+$replaceText[<#$getServerVar[canal-i;$guildID]>;<#>;No channel configured;-1]
+$replaceText[$replaceText[$json[i];si;System activated;1];no;System __deactivated__;1]]
+$footer[Credits @Tico]
+$footerIcon[$serverIcon]
+$color[6e00ff]
+$addButton[no;bie;Welcome message;secondary;;🛬;]
+$addButton[no;des;Leave message;secondary;;🛫;]
+
+$elseif[$message==info]
+$removeAllComponents
+$ephemeral
+$title[ℹ️ | Information]
+$description[Here’s a brief explanation of how this system works]
+$addField[👤 | Keywords;
+This system has 3 keywords to further personalize your welcome and leave messages, which are: **{tagg-user}, {server-name}, and {members}**
+
+**{tagg-user}** is used to tag the user who joins the server.
+**{server-name}** is for displaying the name of your server.
+**{members}** returns the current number of members in your server.
+
+**Examples of use:**
+- Welcome {tagg-user} to {server-name}. Now we are {members}
+**Result:** Welcome <@$authorID> to $serverName[$guildID]. Now we are $membersCount
+
+- See you later {tagg-user}, we hope you come back. Now we are {members}
+**Result:** See you later <@$authorID>, we hope you come back. Now we are $membersCount
+
+These keywords can be used in **title, description, and footer**]
+$addField[🛠️ | Auto-roles;
+In this system, you can configure auto-roles which new members will receive automatically when they join the server]
+$addField[✏️ | Auto-name;
+To set an auto-name when joining the server, this system has 2 keywords: **{name-user} and {members}**
+
+**{name-user}** returns the username.
+**{members}** returns the current number of members in the server.
+
+**Example of use:**
+- 👤 | {name-user}
+**Result:** 👤 | $nickname[$authorID]
+
+- 👤 | Member {members}
+**Result:** 👤 | Member $membersCount
+
+If you want to deactivate this system, instead of entering a name, just type **deactivate**]
+$addField[🤖 | Anti-bots;
+With this system, you can block any bot from entering your server for security, or allow any bot to join]
+$footer[Credits @Tico]
+$color[6e00ff]
+$endif
+
+$elseif[$customID==modal-conf]
+$removeAllComponents
+$ephemeral
+
+$jsonParse[$getUserVar[welcome-id;$botID;$guildID]]
+$if[$input[t]!=]
+$jsonSetString[title;$input[t]]
+$endif
+$if[$input[d]!=]
+$jsonSetString[description;$input[d]]
+$endif
+$if[$input[i]!=]
+$jsonSetString[image;$input[i]]
+$endif
+$if[$input[f]!=]
+$jsonSetString[footer;$input[f]]
+$endif
+$if[$input[c]!=]
+$if[$isValidHex[$input[c]]==true]
+$jsonSetString[color;$input[c]]
+$else
+$addField[❌ | Error;
+Invalid hexadecimal format
+
+Example: ff0000]
+$color[ff0000]
+$stop
+$endif
+$endif
+
+$if[$input[t-i]!=]
+$jsonSetString[title-i;$input[t-i]]
+$endif
+$if[$input[d-i]!=]
+$jsonSetString[description-i;$input[d-i]]
+$endif
+$if[$input[i-i]!=]
+$jsonSetString[image-i;$input[i-i]]
+$endif
+$if[$input[f-i]!=]
+$jsonSetString[footer-i;$input[f-i]]
+$endif
+$if[$input[c-i]!=]
+$if[$isValidHex[$input[c-i]]==true]
+$jsonSetString[color-i;$input[c-i]]
+$else
+$addField[❌ | Error;
+Invalid hexadecimal format
+
+Example: ff0000]
+$color[ff0000]
+$stop
+$endif
+$endif
+
+$setUserVar[welcome-id;$jsonStringify;$botID;$guildID]
+
+$if[$or[$input[t]!=;$input[d]!=;$input[i]!=;$input[f]!=;$input[c]!=;$input[t-i]!=;$input[d-i]!=;$input[i-i]!=;$input[f-i]!=;$input[c-i]!=]==true]
+$jsonParse[$getUserVar[welcome-id;$botID;$guildID]]
+$if[$and[$input[channel-i]==;$input[channel-b]==;$input[role]==;$input[t-1]==;$input[d-i]==;$input[i-i]==;$input[f-i]==;$input[c-i]==]==true]
+👀 | PREVIEW
+$title[$replaceText[$replaceText[$replaceText[$json[title];{tagg-user};$displayName[$authorID];-1];{server-name};$serverName[$guildID];-1];{members};$membersCount;-1]]
+$description[$replaceText[$replaceText[$replaceText[$json[description];{tagg-user};<@$authorID>;-1];{server-name};$serverName[$guildID];-1];{members};$membersCount;-1]]
+$image[$json[image]]
+$footer[$replaceText[$replaceText[$replaceText[$json[footer];{tagg-user};$displayName[$authorID];-1];{server-name};$serverName[$guildID];-1];{members};$membersCount;-1]]
+$footerIcon[$serverIcon]
+$color[$json[color]]
+$elseif[$and[$input[channel-i]==;$input[channel-b]==;$input[role]==]==true]
+👀 | PREVIEW
+$title[$replaceText[$replaceText[$replaceText[$json[title-i];{tagg-user};$displayName[$authorID];-1];{server-name};$serverName[$guildID];-1];{members};$membersCount;-1]]
+$description[$replaceText[$replaceText[$replaceText[$json[description-i];{tagg-user};<@$authorID>;-1];{server-name};$serverName[$guildID];-1];{members};$membersCount;-1]]
+$image[$json[image-i]]
+$footer[$replaceText[$replaceText[$replaceText[$json[footer-i];{tagg-user};$displayName[$authorID];-1];{server-name};$serverName[$guildID];-1];{members};$membersCount;-1]]
+$footerIcon[$serverIcon]
+$color[$json[color-i]]
+$endif
+$endif
+
+$if[$or[$input[role-act]!=;$input[role]!=]==true]
+$jsonParse[$getUserVar[welcome-id;$botID;$guildID]]
+$if[$input[role-act]==]
+$var[tico;1]
+$eval[$repeatMessage[5;
+%{DOL}%if[%{DOL}%roleExists[%{DOL}%input[role\]\]==true\]
+
+%{DOL}%if[%{DOL}%input[role\]==%{DOL}%json[role-%{DOL}%var[tico\]\]\]
+%{DOL}%addField[❌ | Uppss...\;
+This role is already configured as an auto-role .-.\]
+%{DOL}%color[ff0000\]
+%{DOL}%var[stop\;si\]
+%{DOL}%endif
+%{DOL}%var[tico\;%{DOL}%sum[%{DOL}%var[tico\]\;1\]\]
+
+%{DOL}%else
+%{DOL}%addField[❌ | Uppss..\;
+The entered role does not exist\]
+%{DOL}%color[ff0000\]
+%{DOL}%var[stop\;si\]
+%{DOL}%endif
+]]
+$if[$var[stop]==si]
+$stop
+$endif
+$var[tico;1]
+$eval[$repeatMessage[5;
+%{DOL}%if[%{DOL}%json[role-%{DOL}%var[tico\]\]==\]
+%{DOL}%jsonSetString[role-%{DOL}%var[tico\]\;%{DOL}%input[role\]\]
+%{DOL}%addField[✅ | Role added\;
+The role <@&%{DOL}%input[role\]> has been added as an auto-role, this role will be automatically assigned to users who join the server\]
+%{DOL}%color[00ff00\]
+%{DOL}%stop
+%{DOL}%elseif[%{DOL}%var[tico\]==5\]
+%{DOL}%addField[❌ | Uppss...\;
+There is no more space to add more auto-roles\]
+%{DOL}%color[ff0000\]
+%{DOL}%else
+%{DOL}%var[tico\;%{DOL}%sum[%{DOL}%var[tico\]\;1\]\]
+%{DOL}%endif
+]]
+$else
+$var[tico;1]
+$eval[$repeatMessage[5;
+%{DOL}%if[%{DOL}%roleExists[%{DOL}%input[role-act\]\]==true\]
+
+%{DOL}%if[%{DOL}%input[role-act\]==%{DOL}%json[role-%{DOL}%var[tico\]\]\]
+%{DOL}%jsonSetString[role-%{DOL}%var[tico\]\;\]
+%{DOL}%addField[✅ | Role removed\;
+The role <@&%{DOL}%input[role-act\]> has been removed as an auto-role\]
+%{DOL}%color[00ff00\]
+%{DOL}%elseif[%{DOL}%var[tico\]==5\]
+%{DOL}%addField[❌ | Uppss...\;
+This role is not configured as an auto-role\]
+%{DOL}%color[ff0000\]
+%{DOL}%else
+%{DOL}%var[tico\;%{DOL}%sum[%{DOL}%var[tico\]\;1\]\]
+%{DOL}%endif
+
+%{DOL}%else
+%{DOL}%addField[❌ | Uppss..\;
+The entered role does not exist\]
+%{DOL}%color[ff0000\]
+%{DOL}%endif
+]]
+$endif
+$setUserVar[welcome-id;$jsonStringify;$botID;$guildID]
+$endif
+
+$if[$input[auto-n]!=]
+$jsonParse[$getUserVar[welcome-id;$botID;$guildID]]
+$if[$input[auto-n]!=deactivate]
+$jsonSetString[auto-n;$input[auto-n]]
+$addField[✅ | Auto-name configured;
+Auto-name has been configured successfully as:
+
+$input[auto-n]
+Example preview: $replaceText[$replaceText[$input[auto-n];{name-user};$nickname[$authorID];1];{members};$membersCount;1]]
+$color[00ff00]
+$else
+$jsonSetString[auto-n;]
+$addField[✅ | Auto-name deactivated;
+The Auto-name system has been successfully deactivated]
+$color[00ff00]
+$endif
+$setUserVar[welcome-id;$jsonStringify;$botID;$guildID]
+$endif
+
+$if[$input[channel-b]!=]
+$if[$channelExists[$input[channel-b]]==true]
+$setServerVar[channel-b;$input[channel-b];$guildID]
+$addField[✅ Channel configured;
+Channel <#$input[channel-b]> has been successfully configured as the welcome channel]
+$color[00ff00]
+$else
+$addField[❌ | Error;
+The channel does not exist]
+$color[ff0000]
+$endif
+$endif
+
+$if[$input[channel-i]!=]
+$if[$channelExists[$input[channel-i]]==true]
+$setServerVar[channel-i;$input[channel-i];$guildID]
+$addField[✅ Channel configured;
+Channel <#$input[channel-i]> has been successfully configured as the farewell channel]
+$color[00ff00]
+$else
+$addField[❌ | Error;
+The channel does not exist]
+$color[ff0000]
+$endif
+$endif
+
+$if[$input[anti]!=]
+$jsonParse[$getUserVar[welcome-id;$botID;$guildID]]
+$if[$toLowercase[$input[anti]]==activate]
+$jsonSetString[anti-bots;yes]
+$addField[🤖 | Anti-bots;
+The system has been __activated__, all bots entering the server will be automatically kicked]
+$color[00ff00]
+$elseif[$toLowercase[$input[anti]]==deactivate]
+$jsonSetString[anti-bots;no]
+$addField[🤖 | Anti-bots;
+The system has been __deactivated__, bots will be allowed to enter the server]
+$color[ff0000]
+$endif
+$setUserVar[welcome-id;$jsonStringify;$botID;$guildID]
+$endif
+
+$if[$input[a-d-b]!=]
+$jsonParse[$getUserVar[welcome-id;$botID;$guildID]]
+$if[$toLowercase[$input[a-d-b]]==activate]
+$jsonSetString[b;yes]
+$addField[⚙️ | System activated;
+The 🛬 | welcome system has been successfully __activated__]
+$color[00ff00]
+$elseif[$toLowercase[$input[a-d-b]]==deactivate]
+$jsonSetString[b;no]
+$addField[⚙️ | System deactivated;
+The 🛬 | welcome system has been successfully __deactivated__]
+$color[00ff00]
+$endif
+$setUserVar[welcome-id;$jsonStringify;$botID;$guildID]
+$endif
+
+$if[$input[a-d-i]!=]
+$jsonParse[$getUserVar[welcome-id;$botID;$guildID]]
+$if[$toLowercase[$input[a-d-i]]==activate]
+$jsonSetString[i;yes]
+$addField[⚙️ | System activated;
+The 🛫 | farewell system has been successfully __activated__]
+$color[00ff00]
+$elseif[$toLowercase[$input[a-d-i]]==deactivate]
+$jsonSetString[i;no]
+$addField[⚙️ | System deactivated;
+The 🛫 | farewell system has been successfully __deactivated__]
+$color[00ff00]
+$endif
+$setUserVar[welcome-id;$jsonStringify;$botID;$guildID]
+$endif
+
+$elseif[$customID==bie]
+$jsonParse[$getUserVar[welcome-id;$botID;$guildID]]
+👀 | WELCOME MESSAGE PREVIEW
+$title[$replaceText[$replaceText[$replaceText[$json[title];{tagg-user};$displayName[$authorID];-1];{server-name};$serverName[$guildID];-1];{members};$membersCount;-1]]
+$description[$replaceText[$replaceText[$replaceText[$json[description];{tagg-user};<@$authorID>;-1];{server-name};$serverName[$guildID];-1];{members};$membersCount;-1]]
+$image[$json[image]]
+$footer[$replaceText[$replaceText[$replaceText[$json[footer];{tagg-user};$displayName[$authorID];-1];{server-name};$serverName[$guildID];-1];{members};$membersCount;-1]]
+$footerIcon[$serverIcon]
+$color[$json[color]]
+
+$elseif[$customID==des]
+$jsonParse[$getUserVar[welcome-id;$botID;$guildID]]
+👀 | FAREWELL MESSAGE PREVIEW
+$title[$replaceText[$replaceText[$replaceText[$json[title-i];{tagg-user};$displayName[$authorID];-1];{server-name};$serverName[$guildID];-1];{members};$membersCount;-1]]
+$description[$replaceText[$replaceText[$replaceText[$json[description-i];{tagg-user};<@$authorID>;-1];{server-name};$serverName[$guildID];-1];{members};$membersCount;-1]]
+$image[$json[image-i]]
+$footer[$replaceText[$replaceText[$replaceText[$json[footer-i];{tagg-user};$displayName[$authorID];-1];{server-name};$serverName[$guildID];-1];{members};$membersCount;-1]]
+$footerIcon[$serverIcon]
+$color[$json[color-i]]
+$endif
