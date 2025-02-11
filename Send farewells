@@ -1,0 +1,12 @@
+PREFIX: $onLeave[$getServerVar[channel-i]]
+
+$nomention
+$jsonParse[$getUserVar[welcome-id;$botID;$guildID]]
+$if[$json[i]==si]
+$title[$replaceText[$replaceText[$replaceText[$json[title-i];{tagg-user};$displayName[$authorID];-1];{server-name};$serverName[$guildID];-1];{members};$membersCount;-1]]
+$description[$replaceText[$replaceText[$replaceText[$json[description-i];{tagg-user};<@$authorID>;-1];{server-name};$serverName[$guildID];-1];{members};$membersCount;-1]]
+$image[$json[image-i]]
+$footer[$replaceText[$replaceText[$replaceText[$json[footer-i];{tagg-user};$displayName[$authorID];-1];{server-name};$serverName[$guildID];-1];{members};$membersCount;-1]]
+$footerIcon[$serverIcon]
+$color[$json[color-i]]
+$endif
