@@ -1,0 +1,33 @@
+1:
+Name: welcome-id
+Value= {
+  "b": "no",
+  "i": "no",
+  "anti-bots": "no",
+  "auto-n": "",
+  "title": "Not configured",
+  "description": "Not configured",
+  "image": "",
+  "footer": "Not configured",
+  "color": "6e00ff",
+  "role-1": "",
+  "role-2": "",
+  "role-3": "",
+  "role-4": "",
+  "role-5": "",
+  "title-i": "Not configured",
+  "description-i": "Not configured",
+  "image-i": "",
+  "footer-i": "Not configured",
+  "color-i": "ff0000"
+}
+
+
+
+2:
+Name: channel-b
+Value=
+
+3:
+Name:channel-i
+Value=
