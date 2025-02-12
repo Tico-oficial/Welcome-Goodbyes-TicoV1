@@ -2,7 +2,7 @@ PREFIX: $onJoined[$getServerVar[channel-b]]
 
 $nomention
 $jsonParse[$getUserVar[welcome-id;$botID;$guildID]]
-$if[$json[b]==si]
+$if[$json[b]==yes]
 $title[$replaceText[$replaceText[$replaceText[$json[title];{tagg-user};$displayName[$authorID];-1];{server-name};$serverName[$guildID];-1];{members};$membersCount;-1]]
 $description[$replaceText[$replaceText[$replaceText[$json[description];{tagg-user};<@$authorID>;-1];{server-name};$serverName[$guildID];-1];{members};$membersCount;-1]]
 $image[$json[image]]
@@ -25,7 +25,7 @@ $changeUsernameWithID[$authorID;$replaceText[$replaceText[$json[auto-n];{name-us
 $endif
 $endif
 
-$if[$json[anti-bots]==si]
+$if[$json[anti-bots]==yes]
 $if[$isBot[$authorID]==true]
 $kick[$authorID;The anti-bot system is activated.]
 $endif
