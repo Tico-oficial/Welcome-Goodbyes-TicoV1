@@ -64,10 +64,10 @@ $addField[✏️ | Auto-name;
 $replaceText[$replaceText[$checkCondition[$json[auto-n]==];true;No auto-name configured;1];false;Auto-name configured $json[auto-n]
 **Preview of how it would look:** $replaceText[$replaceText[$json[auto-n];{name-user};$nickname[$authorID];1];{members};$membersCount;1];1]]
 $addField[🛬 | Welcome channel;
-$replaceText[<#$getServerVar[canal-b;$guildID]>;<#>;No channel configured;-1]
+$replaceText[<#$getServerVar[channel-b;$guildID]>;<#>;No channel configured;-1]
 $replaceText[$replaceText[$json[b];si;System __activated__;1];no;System __deactivated__;1]]
 $addField[🛫 | Leave channel;
-$replaceText[<#$getServerVar[canal-i;$guildID]>;<#>;No channel configured;-1]
+$replaceText[<#$getServerVar[channel-i;$guildID]>;<#>;No channel configured;-1]
 $replaceText[$replaceText[$json[i];si;System activated;1];no;System __deactivated__;1]]
 $footer[Credits @Tico]
 $footerIcon[$serverIcon]
